@@ -1,9 +1,25 @@
-import Image from "next/image";
+import axios from "axios";
 
-export default function Home() {
+async function getUserData() {
+  await new Promise((r) => setTimeout(r, 5000));
+  const response = await axios.get("https://week-13-offline.kirattechnologies.workers.dev/api/v1/user/details")
+	return response.data;
+}
+
+// async fuction
+export default async function Home() {
+  const UserDetails = await getUserData();
   return (
-    <div>
-      Hi there! This is the home page of our Next.js application.
-    </div>
+    <div className="flex flex-col justify-center h-screen">
+        <div className="flex justify-center">
+            <div className="border p-8 rounded">
+                <div>
+                    Name: {UserDetails?.name}
+                </div>
+                
+                {UserDetails?.email}
+            </div>
+        </div>
+        </div>
   );
 }
